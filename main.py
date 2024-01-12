@@ -28,9 +28,10 @@ def add_message():
     username = request.form.get("username")
     text = request.form.get("text")
 
-    message = Message(author=username, text=text)
-    db.session.add(message)
-    db.session.commit()
+    if username and text:
+        message = Message(author=username, text=text)
+        db.session.add(message)
+        db.session.commit()
 
     return redirect("/")
 
