@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat App</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <h1>Simple chat app</h1>
+    <form action="/add-message" method="post">
+        <input name="username" placeholder="Enter your name">
+        <br><br>
+        <textarea name="text" placeholder="Enter your message" rows="5"></textarea>
+        <br><br>
+        <button type="submit">Submit</button>
+
+
+    </form>
+
+    <h2>Messages</h2>
+    <ul class="chat-list">
+        {% for message in messages %}
+             <li class="{{ 'sent' if message.sent_by_me else 'received' }}">
+                 {{ message.author }}: {{ message.text }}
+            </li>
+        {% endfor %}
+    </ul>
+
+        <div class="pagination">
+            {% if messages.has_prev %}
+                {% if messages.page > 1 %}
+                    <a href="{{ url_for('index', page=messages.prev_num) }}">Previous</a>
+                {% endif %}
+            {% endif %}
+                
+
+             Page {{ messages.page }} of {{ messages.pages }}
+
+            {% if messages.has_next %}
+                <a href="{{ url_for('index', page=messages.next_num) }}">Next</a>
+             {% endif %}
+
+
+        </div>
+
+
+    
+</body>
+</html>
